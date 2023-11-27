@@ -16,7 +16,7 @@ export default function App() {
       .then(post => {
         setTitle(post.title)
         setLoading(false)
-        setToast({ type: 'success', message: `Post with id ${postId} loaded` })
+        setToast({ type: 'success', message: `Post with id ${postId} loaded` }) 
       })
     }, [postId])
 
