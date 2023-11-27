@@ -9,20 +9,36 @@ export default function App() {
   const [postId, setPostId] = useState(1)
   const [loading, setLoading] = useState(true)
 
+  function userAction(type, payload){
+    switch(type){
+      case 'get-post-success':
+        setTitle(payload.title)
+        setLoading(false)
+        setToast({ type: 'success', message: payload.massege }) 
+      break;
+      case 'get-post-request':
+        setPostId(payload)
+        setLoading(true)
+      default:
+        break;
+    }
+  }
+
 
     useEffect(() =>{
       fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then(Response => Response.json())
       .then(post => {
-        setTitle(post.title)
-        setLoading(false)
-        setToast({ type: 'success', message: `Post with id ${postId} loaded` }) 
+        userAction('get-post-success',
+          {
+            title: post.title,
+            massege: `Post with id ${postId} loaded`,
+        })
       })
     }, [postId])
 
     function handleLoading(e){
-      setPostId(e.target.value)
-      setLoading(true)
+        userAction('get-post-request', e.target.value )
     }
 
     return (
